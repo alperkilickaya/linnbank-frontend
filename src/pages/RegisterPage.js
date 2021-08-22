@@ -19,9 +19,29 @@ const onSubmit = (values) => {
   console.log(values);
 };
 
+const checkPassword = (values) => {
+  let passwordStrenght = [];
+
+  if(/^[a-z]*$/.test(values.password)){
+    passwordStrenght.push('a');
+  }
+  if(/^[A-Z]*$/.test(values.password)){
+    passwordStrenght.push('A');
+  }
+  if(/^\d*$/.test(values.password)){
+    passwordStrenght.push('9');
+  }
+  if(/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(values.password)){
+    passwordStrenght.push('?');
+  }
+
+  return passwordStrenght;
+}
+
 const validate = (values) => {
   //values.name......
   let errors = {};
+  
   if (!values.ssn) {
     errors.ssn = "ssn required";
   } else if (!/^[0-9-]*$/.test(values.ssn)) {
@@ -58,7 +78,7 @@ const validate = (values) => {
   if (!values.email) {
     errors.email = "E-mail required";
   } else if (
-    !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(
+    !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(
       values.email
     )
   ) {
@@ -246,6 +266,7 @@ const RegisterPage = () => {
               <small>
                 <span>Password strength:</span>
               </small>
+              {console.log(formik.errors.passwordStrenght)}
               <ul id="strengthBar w-25">
                 <li
                   className="point"
