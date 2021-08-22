@@ -103,7 +103,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -124,7 +124,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -145,7 +145,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -166,7 +166,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -206,7 +206,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -227,7 +227,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -248,7 +248,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -269,7 +269,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -309,7 +309,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -330,7 +330,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -351,7 +351,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -391,7 +391,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -412,7 +412,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -433,7 +433,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -454,7 +454,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -494,7 +494,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -515,7 +515,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -536,7 +536,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -557,7 +557,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -597,7 +597,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -618,7 +618,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -639,7 +639,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>
@@ -660,7 +660,7 @@ const RecentlyBestTransactions = () => {
                                 <td>Dollar</td>
                                 <td>001 Days Ago</td>
                                 <td>
-                                  <a className="btn" href="#">
+                                  <a className="btn" href=" ">
                                     View Detailes
                                   </a>
                                 </td>

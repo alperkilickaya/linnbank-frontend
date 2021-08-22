@@ -3,6 +3,38 @@ import "./RegisterPage.css";
 import { useFormik } from "formik";
 import { values } from "lodash";
 import { $CombinedState } from "redux";
+import * as Yup from "yup";
+import { useState } from "react";
+import { set } from "react-hook-form";
+
+const validationSchema = Yup.object({
+  ssn: Yup.string()
+    .required("SSN required")
+    .length(11, "SSN number can be 11 digit")
+    .matches("^[0-9-]*$", "only numbers accepted"),
+  firstName: Yup.string()
+    .required("Firstname required")
+    .matches("^[A-Za-z ]+$", "name can contain only alphabetic characters"),
+  lastName: Yup.string()
+    .required("Lastname required")
+    .matches("^[A-Za-z ]+$", "lastname can contain only alphabetic characters"),
+  address: Yup.string()
+    .required("Adress required")
+    .matches(
+      "^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$",
+      "invalid address for US"
+    ),
+  password: Yup.string().required("Password required"),
+  mobilePhoneNumber: Yup.string()
+    .required("Mobile Phone Number required")
+    .matches("^[0-9-]*$", "lastname can contain only alphabetic characters")
+    .length(12, "wrong format for US telephone number"),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref("password"), null],
+    "Password must match"
+  ),
+  email: Yup.string().email("Invalid email").required("Email required"),
+});
 
 const initialValues = {
   ssn: "",
@@ -19,29 +51,10 @@ const onSubmit = (values) => {
   console.log(values);
 };
 
-const checkPassword = (values) => {
-  let passwordStrenght = [];
-
-  if(/^[a-z]*$/.test(values.password)){
-    passwordStrenght.push('a');
-  }
-  if(/^[A-Z]*$/.test(values.password)){
-    passwordStrenght.push('A');
-  }
-  if(/^\d*$/.test(values.password)){
-    passwordStrenght.push('9');
-  }
-  if(/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(values.password)){
-    passwordStrenght.push('?');
-  }
-
-  return passwordStrenght;
-}
-
 const validate = (values) => {
   //values.name......
   let errors = {};
-  
+
   if (!values.ssn) {
     errors.ssn = "ssn required";
   } else if (!/^[0-9-]*$/.test(values.ssn)) {
@@ -63,14 +76,19 @@ const validate = (values) => {
   }
   if (!values.address) {
     errors.address = "Adress required";
-  } else if (!/^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$/.test(values.address)) {
+  } else if (
+    !/^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$/.test(values.address)
+  ) {
     errors.address = "wrong postal code for US";
   }
   if (!values.mobilePhoneNumber) {
     errors.mobilePhoneNumber = "Mobile Phone Number required";
   } else if (!/^[0-9-]*$/.test(values.mobilePhoneNumber)) {
     errors.mobilePhoneNumber = "only numbers accepted";
-  } else if (values.mobilePhoneNumber.charAt(3) !== "-" && values.mobilePhoneNumber.charAt(7) !== "-") {
+  } else if (
+    values.mobilePhoneNumber.charAt(3) !== "-" &&
+    values.mobilePhoneNumber.charAt(7) !== "-"
+  ) {
     errors.mobilePhoneNumber = "Phone number format is false (000-000-0000)";
   } else if (values.mobilePhoneNumber.length !== 12) {
     errors.mobilePhoneNumber = "wrong phone number number";
@@ -87,10 +105,11 @@ const validate = (values) => {
   if (!values.password) {
     errors.password = "Password required";
   }
+
   if (!values.confirmPassword) {
     errors.confirmPassword = "Password required";
   }
-  if (values.password!==values.confirmPassword){
+  if (values.password !== values.confirmPassword) {
     errors.password = "Passwords does not match";
     errors.confirmPassword = "Passwords does not match";
   }
@@ -102,11 +121,48 @@ const RegisterPage = () => {
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validate,
+    validationSchema,
   });
+
+  const [password, setPassword] = useState(0);
+
+  const passwordStrenght = (values) => {
+    if (/^[a-z]*$/.test(values.password)) {
+      setPassword(password + 1);
+    }
+    if (/^[A-Z]*$/.test(values.password)) {
+      setPassword(password + 1);
+    }
+    if (/^\d*$/.test(values.password)) {
+      setPassword(password + 1);
+    }
+    if (/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(values.password)) {
+      setPassword(password + 1);
+    }
+    return passwordStrenght;
+  };
+
+  const passwordStrenght2 = (values) => {
+    console.log('deneme',values);
+    let password1 = 0;
+    if (/^[a-z]*$/.test(values)) {
+      password1 = 1;
+    }
+    if (/^[A-Z]*$/.test(values)) {
+      password1 = 2;
+    }
+    if (/^\d*$/.test(values)) {
+      password1 = 3;
+    }
+    if (/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(values.password)) {
+      password1 = 4;
+    }
+    return password1;
+  };
 
   console.log("data:", formik.values);
   console.log("error:", formik.errors);
+  //console.log(passwordStrenght(formik.values));
 
   return (
     <>
@@ -136,8 +192,9 @@ const RegisterPage = () => {
                 className="form-control"
                 onChange={formik.handleChange}
                 value={formik.values.ssn}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.ssn ? (
+              {formik.touched.ssn && formik.errors.ssn ? (
                 <div className="error-message">{formik.errors.ssn}</div>
               ) : null}
             </div>
@@ -155,8 +212,9 @@ const RegisterPage = () => {
                 className="form-control"
                 onChange={formik.handleChange}
                 value={formik.values.firstName}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.firstName ? (
+              {formik.touched.firstName && formik.errors.firstName ? (
                 <div className="error-message">{formik.errors.firstName}</div>
               ) : null}
             </div>
@@ -174,8 +232,9 @@ const RegisterPage = () => {
                 className="form-control"
                 onChange={formik.handleChange}
                 value={formik.values.lastName}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.lastName ? (
+              {formik.touched.lastName && formik.errors.lastName ? (
                 <div className="error-message">{formik.errors.lastName}</div>
               ) : null}
             </div>
@@ -194,8 +253,9 @@ const RegisterPage = () => {
                 className="form-control"
                 onChange={formik.handleChange}
                 value={formik.values.address}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.address ? (
+              {formik.touched.address && formik.errors.address ? (
                 <div className="error-message">{formik.errors.address}</div>
               ) : null}
             </div>
@@ -214,8 +274,10 @@ const RegisterPage = () => {
                 className="form-control"
                 onChange={formik.handleChange}
                 value={formik.values.mobilePhoneNumber}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.mobilePhoneNumber ? (
+              {formik.touched.mobilePhoneNumber &&
+              formik.errors.mobilePhoneNumber ? (
                 <div className="error-message">
                   {formik.errors.mobilePhoneNumber}
                 </div>
@@ -237,8 +299,9 @@ const RegisterPage = () => {
                 className="form-control"
                 onChange={formik.handleChange}
                 value={formik.values.email}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.email ? (
+              {formik.touched.email && formik.errors.email ? (
                 <div className="error-message">{formik.errors.email}</div>
               ) : null}
             </div>
@@ -257,9 +320,13 @@ const RegisterPage = () => {
                 className="form-control"
                 onChange={formik.handleChange}
                 value={formik.values.password}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.password ? (
-                <div className="error-message">{formik.errors.password}</div>
+              {formik.touched.password && formik.errors.password ? (
+                <div className="error-message">
+                  {formik.errors.password}
+                  <div>{passwordStrenght2(formik.values.password)}</div>
+                </div>
               ) : null}
             </div>
             <div id="strength">
@@ -305,8 +372,10 @@ const RegisterPage = () => {
                 className="form-control"
                 onChange={formik.handleChange}
                 value={formik.values.confirmPassword}
+                onBlur={formik.handleBlur}
               />
-              {formik.errors.confirmPassword ? (
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
                 <div className="error-message">
                   {formik.errors.confirmPassword}
                 </div>

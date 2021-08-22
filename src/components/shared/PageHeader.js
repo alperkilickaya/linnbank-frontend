@@ -8,8 +8,8 @@ const PageHeader = (props) => {
           <div className="breadcrumb_content">
             <h2>{props.title}</h2>
             <div className="page_link">
-              <a>HOME</a>
-              <a>{props.page}</a>
+              <a href=" ">HOME</a>
+              <a href =" ">{props.page}</a>
             </div>
           </div>
         </div>

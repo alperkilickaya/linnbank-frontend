@@ -47,7 +47,7 @@ const AboutUs = () => {
                     </p>
                   </div>
                 </div>
-                <a className="btn btn-blue" href="#">
+                <a className="btn btn-blue" href=" ">
                   Learn More
                 </a>
               </div>

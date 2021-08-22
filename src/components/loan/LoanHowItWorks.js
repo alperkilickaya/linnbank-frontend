@@ -25,13 +25,13 @@ const LoanHowItWorks = () => {
                 </div>
                 <div class="service-details">
                   <h5>
-                    <a href="#">Apply for loan</a>
+                    <a href=" ">Apply for loan</a>
                   </h5>
                   <p>
                     Lorem ipsum dolor sit ametcteturs adipiscing elieiusi
                     ncididunt ut labore et dol oremagna.
                   </p>
-                  <a class="angle-btn" href="#">
+                  <a class="angle-btn" href=" ">
                     <img
                       src="assets/img/icon/angle-left-round.png"
                       alt="icon"
@@ -47,13 +47,13 @@ const LoanHowItWorks = () => {
                 </div>
                 <div class="service-details">
                   <h5>
-                    <a href="#">Application review</a>
+                    <a href=" ">Application review</a>
                   </h5>
                   <p>
                     Lorem ipsum dolor sit ametcteturs adipiscing elieiusi
                     ncididunt ut labore et dol oremagna.
                   </p>
-                  <a class="angle-btn" href="#">
+                  <a class="angle-btn" href=" ">
                     <img
                       src="assets/img/icon/angle-left-round.png"
                       alt="icon"
@@ -69,13 +69,13 @@ const LoanHowItWorks = () => {
                 </div>
                 <div class="service-details">
                   <h5>
-                    <a href="#">Get funding fast</a>
+                    <a href=" ">Get funding fast</a>
                   </h5>
                   <p>
                     Lorem ipsum dolor sit ametcteturs adipiscing elieiusi
                     ncididunt ut labore et dol oremagna.
                   </p>
-                  <a class="angle-btn" href="#">
+                  <a class="angle-btn" href=" ">
                     <img
                       src="assets/img/icon/angle-left-round.png"
                       alt="icon"

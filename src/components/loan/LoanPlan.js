@@ -28,19 +28,19 @@ const LoanPlan = () => {
                 </div>
                 <ul class="pricing-list">
                   <li>
-                    <a href="#">Borrow - $350 over 3 months</a>
+                    <a href=" ">Borrow - $350 over 3 months</a>
                   </li>
                   <li>
-                    <a href="#">Interest rate - 292% pa fixed</a>
+                    <a href=" ">Interest rate - 292% pa fixed</a>
                   </li>
                   <li>
-                    <a href="#">Total amount payable - $500.25</a>
+                    <a href=" ">Total amount payable - $500.25</a>
                   </li>
                   <li>
-                    <a href="#">Representative - 1,286% APR</a>
+                    <a href=" ">Representative - 1,286% APR</a>
                   </li>
                   <li>
-                    <a class="btn btn-blue" href="#">
+                    <a class="btn btn-blue" href=" ">
                       Apply Now
                     </a>
                   </li>
@@ -56,19 +56,19 @@ const LoanPlan = () => {
                 </div>
                 <ul class="pricing-list">
                   <li>
-                    <a href="#">Borrow - $350 over 3 months</a>
+                    <a href=" ">Borrow - $350 over 3 months</a>
                   </li>
                   <li>
-                    <a href="#">Interest rate - 292% pa fixed</a>
+                    <a href=" ">Interest rate - 292% pa fixed</a>
                   </li>
                   <li>
-                    <a href="#">Total amount payable - $500.25</a>
+                    <a href=" ">Total amount payable - $500.25</a>
                   </li>
                   <li>
-                    <a href="#">Representative - 1,286% APR</a>
+                    <a href=" ">Representative - 1,286% APR</a>
                   </li>
                   <li>
-                    <a class="btn btn-blue" href="#">
+                    <a class="btn btn-blue" href=" ">
                       Apply Now
                     </a>
                   </li>
@@ -84,19 +84,19 @@ const LoanPlan = () => {
                 </div>
                 <ul class="pricing-list">
                   <li>
-                    <a href="#">Borrow - $350 over 3 months</a>
+                    <a href=" ">Borrow - $350 over 3 months</a>
                   </li>
                   <li>
-                    <a href="#">Interest rate - 292% pa fixed</a>
+                    <a href=" ">Interest rate - 292% pa fixed</a>
                   </li>
                   <li>
-                    <a href="#">Total amount payable - $500.25</a>
+                    <a href=" ">Total amount payable - $500.25</a>
                   </li>
                   <li>
-                    <a href="#">Representative - 1,286% APR</a>
+                    <a href=" ">Representative - 1,286% APR</a>
                   </li>
                   <li>
-                    <a class="btn btn-blue" href="#">
+                    <a class="btn btn-blue" href=" ">
                       Apply Now
                     </a>
                   </li>
@@ -106,7 +106,7 @@ const LoanPlan = () => {
           </div>
         </div>
       </div>
-      {/* <!--pricing-area end--> Loan Plan */}
+      
     </>
   );
 };

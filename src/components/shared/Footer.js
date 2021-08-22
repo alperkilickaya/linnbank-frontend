@@ -69,27 +69,27 @@ const Footer = () => {
                   </p>
                   <ul className="social-area">
                     <li>
-                      <a href="#">
+                      <a href=" ">
                         <i className="fa fa-facebook"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href=" ">
                         <i className="fa fa-twitter"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href=" ">
                         <i className="fa fa-linkedin"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href=" ">
                         <i className="fa fa-pinterest"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a href=" ">
                         <i className="fa fa-google-plus"></i>
                       </a>
                     </li>
@@ -107,13 +107,13 @@ const Footer = () => {
               <div className="text-lg-left text-center">
                 <ul>
                   <li>
-                    <a href="#">Terms & Conditions</a>
+                    <a href=" ">Terms & Conditions</a>
                   </li>
                   <li>
-                    <a href="#">Privacy Policy</a>
+                    <a href=" ">Privacy Policy</a>
                   </li>
                   <li>
-                    <a href="#">Sitemap</a>
+                    <a href=" ">Sitemap</a>
                   </li>
                 </ul>
               </div>

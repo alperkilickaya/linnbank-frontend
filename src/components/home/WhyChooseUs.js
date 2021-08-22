@@ -42,9 +42,9 @@ const WhyChooseUs = () => {
               </div>
             </div>
             <div className="col-lg-12 text-center">
-              <a className="btn" href="#">
+              {/* <a className="btn" href="#">
                 Create An Account
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

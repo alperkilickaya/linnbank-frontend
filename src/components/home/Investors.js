@@ -29,17 +29,18 @@ const Investors = () => {
                     <p>Top Invester</p>
                     <ul className="social-area">
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-facebook"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/home">
+                          
                           <i className="fa fa-twitter"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-linkedin"></i>
                         </a>
                       </li>
@@ -53,17 +54,17 @@ const Investors = () => {
                     <p>Top Invester</p>
                     <ul className="social-area">
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-facebook"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-twitter"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-linkedin"></i>
                         </a>
                       </li>
@@ -77,17 +78,17 @@ const Investors = () => {
                     <p>Top Invester</p>
                     <ul className="social-area">
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-facebook"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-twitter"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-linkedin"></i>
                         </a>
                       </li>
@@ -101,17 +102,17 @@ const Investors = () => {
                     <p>Top Invester</p>
                     <ul className="social-area">
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-facebook"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-twitter"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href=" ">
                           <i className="fa fa-linkedin"></i>
                         </a>
                       </li>
@@ -123,7 +124,6 @@ const Investors = () => {
           </div>
         </div>
       </div>
-      {/* <!--envestor-area end--> */}
     </>
   );
 };
