@@ -2,7 +2,7 @@ import React from "react";
 import "./RegisterPage.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PasswordStrengthBar from "react-password-strength-bar";
 
 const validationSchema = Yup.object({
@@ -149,7 +149,7 @@ const RegisterPage = () => {
     }
   };
 
-  const { password } = formik.values.password;
+
 
   console.log("passs:", formik.values.password);
   console.log("data:", formik.values);
