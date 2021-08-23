@@ -1,11 +1,9 @@
 import React from "react";
 import "./RegisterPage.css";
 import { useFormik } from "formik";
-import { values } from "lodash";
-import { $CombinedState } from "redux";
 import * as Yup from "yup";
-import { useState } from "react";
-import { set } from "react-hook-form";
+import { useState, useEffect } from "react";
+import PasswordStrengthBar from "react-password-strength-bar";
 
 const validationSchema = Yup.object({
   ssn: Yup.string()
@@ -24,7 +22,12 @@ const validationSchema = Yup.object({
       "^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$",
       "invalid address for US"
     ),
-  password: Yup.string().required("Password required"),
+  password: Yup.string()
+    .required("Password required")
+    .matches(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{6,10}$",
+      "Minimum six and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character:"
+    ),
   mobilePhoneNumber: Yup.string()
     .required("Mobile Phone Number required")
     .matches("^[0-9-]*$", "lastname can contain only alphabetic characters")
@@ -50,7 +53,7 @@ const initialValues = {
 const onSubmit = (values) => {
   console.log(values);
 };
-
+/*
 const validate = (values) => {
   //values.name......
   let errors = {};
@@ -116,7 +119,7 @@ const validate = (values) => {
 
   return errors;
 };
-
+*/
 const RegisterPage = () => {
   const formik = useFormik({
     initialValues,
@@ -124,42 +127,31 @@ const RegisterPage = () => {
     validationSchema,
   });
 
-  const [password, setPassword] = useState(0);
+  const [type, setType] = useState(() => {
+    return "input";
+  });
 
-  const passwordStrenght = (values) => {
-    if (/^[a-z]*$/.test(values.password)) {
-      setPassword(password + 1);
-    }
-    if (/^[A-Z]*$/.test(values.password)) {
-      setPassword(password + 1);
-    }
-    if (/^\d*$/.test(values.password)) {
-      setPassword(password + 1);
-    }
-    if (/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(values.password)) {
-      setPassword(password + 1);
-    }
-    return passwordStrenght;
+  const show = (e) => {
+    setType("input");
+  };
+  const hide = (e) => {
+    setType("password");
   };
 
-  const passwordStrenght2 = (values) => {
-    console.log('deneme',values);
-    let password1 = 0;
-    if (/^[a-z]*$/.test(values)) {
-      password1 = 1;
+  const handleSsn = (e) => {
+    const currentSsn = formik.values.ssn;
+    //console.log(currentSsn);
+    if (
+      e.keyCode !== 8 &&
+      (currentSsn.length === 3 || currentSsn.length === 6)
+    ) {
+      formik.setFieldValue("ssn", `${currentSsn}-`);
     }
-    if (/^[A-Z]*$/.test(values)) {
-      password1 = 2;
-    }
-    if (/^\d*$/.test(values)) {
-      password1 = 3;
-    }
-    if (/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(values.password)) {
-      password1 = 4;
-    }
-    return password1;
   };
 
+  const { password } = formik.values.password;
+
+  console.log("passs:", formik.values.password);
   console.log("data:", formik.values);
   console.log("error:", formik.errors);
   //console.log(passwordStrenght(formik.values));
@@ -191,8 +183,10 @@ const RegisterPage = () => {
                 type="text"
                 className="form-control"
                 onChange={formik.handleChange}
-                value={formik.values.ssn}
                 onBlur={formik.handleBlur}
+                onKeyDown={handleSsn}
+                maxLength="11"
+                value={formik.values.ssn}
               />
               {formik.touched.ssn && formik.errors.ssn ? (
                 <div className="error-message">{formik.errors.ssn}</div>
@@ -312,50 +306,33 @@ const RegisterPage = () => {
               >
                 New password
               </label>
-              <input
-                name="password"
-                placeholder="New password"
-                id="password"
-                type="password"
-                className="form-control"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                onBlur={formik.handleBlur}
-              />
+              <div onMouseEnter={show} onMouseLeave={hide}>
+                <input
+                  name="password"
+                  placeholder="New password"
+                  id="password"
+                  type={type}
+                  className="form-control"
+                  onChange={formik.handleChange}
+                  value={formik.values.password}
+                  onBlur={formik.handleBlur}                  
+                />                
+              </div >
+             
+
               {formik.touched.password && formik.errors.password ? (
-                <div className="error-message">
-                  {formik.errors.password}
-                  <div>{passwordStrenght2(formik.values.password)}</div>
-                </div>
+                <div className="error-message">{formik.errors.password}</div>
               ) : null}
             </div>
             <div id="strength">
               <small>
                 <span>Password strength:</span>
               </small>
-              {console.log(formik.errors.passwordStrenght)}
-              <ul id="strengthBar w-25">
-                <li
-                  className="point"
-                  style={{ backgroundColor: "#FF0000" }}
-                ></li>
-                <li
-                  className="point"
-                  style={{ backgroundColor: "#99FF00" }}
-                ></li>
-                <li
-                  className="point"
-                  style={{ backgroundColor: "#99FF00" }}
-                ></li>
-                <li
-                  className="point"
-                  style={{ backgroundColor: "#99FF00" }}
-                ></li>
-                <li
-                  className="point"
-                  style={{ backgroundColor: "#DDDDDD" }}
-                ></li>
-              </ul>
+              <PasswordStrengthBar
+                className="mt-3 mb-4 bar"
+                password={formik.values.password}
+              />
+            
             </div>
             <div className="form-group">
               <label
@@ -373,6 +350,7 @@ const RegisterPage = () => {
                 onChange={formik.handleChange}
                 value={formik.values.confirmPassword}
                 onBlur={formik.handleBlur}
+                onPaste={(e) => e.preventDefault()}
               />
               {formik.touched.confirmPassword &&
               formik.errors.confirmPassword ? (
