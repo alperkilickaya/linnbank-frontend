@@ -35,16 +35,12 @@ const Header = () => {
                   <p>Mon-Sat (10 AM - 6 PM)</p>
                 </div>
               </div>
-              <span
-                id="account"
-                className="btn btn-round"
-              >
-                
-{/*                   <UserDropDown/>
- */}               
-                    <Link to="/register">Register</Link> &nbsp; | &nbsp;
-                    <Link to="/signin">Signin</Link>
-                  
+              <span id="account" className="btn btn-round">
+                {/* <UserDropDown /> */}
+                <span>
+                  <Link to="/register">Register</Link> &nbsp; | &nbsp;
+                  <Link to="/signin">Signin</Link>
+                </span>
               </span>
             </div>
           </div>

@@ -29,19 +29,19 @@ const PricingPlan = () => {
                 </div>
                 <ul className="pricing-list">
                   <li>
-                    <a href="#">Miximum Deposit $10,00</a>
+                    <a href="#/">Miximum Deposit $10,00</a>
                   </li>
                   <li>
-                    <a href="#">Minimum Deposit $10</a>
+                    <a href="#/">Minimum Deposit $10</a>
                   </li>
                   <li>
-                    <a href="#">Up to 50 Users available</a>
+                    <a href="#/">Up to 50 Users available</a>
                   </li>
                   <li>
-                    <a href="#">Free Banking</a>
+                    <a href="#/">Free Banking</a>
                   </li>
                   <li>
-                    <a className="btn btn-blue" href="#">
+                    <a className="btn btn-blue" href="#/">
                       Book Now
                     </a>
                   </li>

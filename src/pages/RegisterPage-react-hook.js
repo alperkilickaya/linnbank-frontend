@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import "./RegisterPage.css";
+import { useForm } from "react-hook-form";
 import PasswordStrength from "../utils/PasswordStrength";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import PasswordStrengthBar from "react-password-strength-bar";
-import JHipPasswordBar from "../utils/JHipPAsswordBar";
 
 const schema = yup.object().shape({
   ssn: yup
@@ -35,18 +34,33 @@ const schema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
-const RegisterForm = (props) => {
-  const [type, setType] = useState("password");
+const RegisterPage = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm({ resolver: yupResolver(schema) });
 
-  const showHide = (e) => {
-    let currentType = type === "input" ? "password" : "input";
-    setType(currentType);
+
+  const onSubmit = (data) => {
+    alert(JSON.stringify(data));
+    console.log(data);
+  };
+  const [key, setKey] = useState(0);
+  const handleKeyDown = (e) => {
+    setKey(e.keyCode);
   };
 
+  let ssnFormatted = register("ssn");
+
   const handleOnChange = (e) => {
-    const value = props.values.ssn;
-    if (e.keyCode !== 8 && (value.length === 3 || value.length === 6)) {
-      props.setFieldValue("ssn", `${value}-`);
+    let value = e.target.value;
+    ssnFormatted.onChange(e);
+    setValue("ssn", value);
+    if (key !== 8 && (value.length === 3 || value.length === 6)) {
+      setValue("ssn", value + "-");
     }
   };
 
@@ -62,25 +76,28 @@ const RegisterForm = (props) => {
 
       <div className="justify-content-center row">
         <div className="col-md-8">
-          <Form
+          <form
             noValidate
             id="register-form"
             method="post"
             className="av-invalid"
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="form-group">
               <label htmlFor="ssn">SSN</label>
-              <Field
+              <input
                 name="ssn"
                 placeholder="000-00-0000"
                 id="ssn"
                 type="text"
                 className="form-control"
                 maxLength="11"
-                // onChange={(e) => handleOnChange(e)}
-                onKeyDown={handleOnChange}
+                // {...register("ssn")}
+                {...ssnFormatted}
+                onChange={(e) => handleOnChange(e)}
+                onKeyDown={handleKeyDown}
               />
-              <ErrorMessage name="ssn" />
+              <p>{errors.ssn?.message}</p>
             </div>
             <div className="form-group">
               <label
@@ -89,13 +106,14 @@ const RegisterForm = (props) => {
               >
                 First Name
               </label>
-              <Field
+              <input
                 name="firstName"
                 id="firstName"
                 type="text"
                 className="form-control"
+                {...register("firstName")}
               />
-              <ErrorMessage name="firstName" />
+              <p>{errors.firstName?.message}</p>
             </div>
             <div className="form-group">
               <label
@@ -104,13 +122,14 @@ const RegisterForm = (props) => {
               >
                 Last Name
               </label>
-              <Field
+              <input
                 name="lastName"
                 id="lastName"
                 type="text"
                 className="form-control"
+                {...register("lastName")}
               />
-              <ErrorMessage name="lastName" />
+              <p>{errors.lastName?.message}</p>
             </div>
 
             <div className="form-group">
@@ -120,13 +139,14 @@ const RegisterForm = (props) => {
               >
                 Address
               </label>
-              <Field
+              <input
                 name="address"
                 id="address"
                 type="text"
                 className="form-control"
+                {...register("address")}
               />
-              <ErrorMessage name="address" />
+              <p>{errors.address?.message}</p>
             </div>
             <div className="form-group">
               <label
@@ -135,14 +155,15 @@ const RegisterForm = (props) => {
               >
                 Mobile Phone Number
               </label>
-              <Field
+              <input
                 name="mobilePhoneNumber"
                 placeholder="000-000-0000"
                 id="mobilePhoneNumber"
                 type="text"
                 className="form-control"
+                {...register("mobilePhoneNumber")}
               />
-              <ErrorMessage name="mobilePhoneNumber" />
+              <p>{errors.mobilePhoneNumber?.message}</p>
             </div>
 
             <div className="form-group">
@@ -152,14 +173,15 @@ const RegisterForm = (props) => {
               >
                 Email
               </label>
-              <Field
+              <input
                 name="email"
                 placeholder="Your email"
                 id="email"
                 type="email"
                 className="form-control"
+                {...register("email")}
               />
-              <ErrorMessage name="email" />
+              <p>{errors.email?.message}</p>
             </div>
             <div className="form-group">
               <label
@@ -168,45 +190,50 @@ const RegisterForm = (props) => {
               >
                 New password
               </label>
-              <div className="input-group" id="show_hide_password">
-                <Field
-                  name="password"
-                  placeholder="New password"
-                  id="password"
-                  type={type}
-                  className="form-control"
-                />
-                <span
-                  onClick={showHide}
-                  className="input-group-text"
-                  id="togglePassword"
-                  style={{
-                    cursor: "pointer",
-                    borderRadius: "0px",
-                  }}
-                >
-                  {type === "password" ? (
-                    <img
-                      src="assets/img/icon/password-show.svg"
-                      alt="show-password"
-                    />
-                  ) : (
-                    <img
-                      src="assets/img/icon/password-hide.svg"
-                      alt="hide-password"
-                    />
-                  )}
-                </span>
-              </div>
-              <ErrorMessage name="password" style={{ display: "block" }} />
+              <input
+                name="password"
+                placeholder="New password"
+                id="password"
+                type="password"
+                className="form-control"
+                {...register("password", {
+                  required: "You must specify a password",
+                  minLength: {
+                    value: 7,
+                    message: "Password must have at least 8 characters",
+                  },
+                })}
+              />
+              {errors.password && <p>{errors.password.message}</p>}
             </div>
-
-            {/* <span className="show-password" onClick={showHide}>
-              {type === "password" ? "Show Password" : "Hide"}
-            </span> */}
-
-            {/* Password PasswordStrength bar added  */}
-            <JHipPasswordBar password={props.values.password} />
+            {/* <PasswordStrength password={watch("password")} /> */}
+            <div id="strength">
+              <small>
+                <span>Password strength:</span>
+              </small>
+              <ul id="strengthBar w-25">
+                <li
+                  className="point"
+                  style={{ backgroundColor: "#FF0000" }}
+                ></li>
+                <li
+                  className="point"
+                  style={{ backgroundColor: "#99FF00" }}
+                ></li>
+                <li
+                  className="point"
+                  style={{ backgroundColor: "#99FF00" }}
+                ></li>
+                <li
+                  className="point"
+                  style={{ backgroundColor: "#99FF00" }}
+                ></li>
+                <li
+                  className="point"
+                  style={{ backgroundColor: "#DDDDDD" }}
+                ></li>
+              </ul>
+            </div>
             <div className="form-group">
               <label
                 htmlFor="secondPassword"
@@ -214,26 +241,28 @@ const RegisterForm = (props) => {
               >
                 New password confirmation
               </label>
-              <Field
+              <input
                 name="secondPassword"
                 placeholder="Confirm the new password"
                 id="secondPassword"
                 type="password"
                 className="form-control"
+                {...register("secondPassword", {
+                  validate: (value) =>
+                    value === watch("password") || "The passwords do not match",
+                })}
               />
-              <ErrorMessage name="secondPassword" />
+              {errors.secondPassword && <p>{errors.secondPassword.message}</p>}
             </div>
 
             <button
               type="submit"
               id="register-submit"
               className="btn btn-round"
-              onClick={props.submitForm}
-              // disabled={props.isSubmitting}
             >
               <span>Register</span>
             </button>
-          </Form>
+          </form>
 
           <p>&nbsp;</p>
 
@@ -254,33 +283,6 @@ const RegisterForm = (props) => {
         </div>
       </div>
     </>
-  );
-};
-
-const RegisterPage = () => {
-  return (
-    <div>
-      <Formik
-        initialValues={{
-          ssn: "",
-          firstName: "",
-          lastName: "",
-          address: "",
-          email: "",
-          mobilePhoneNumber: "",
-          password: "",
-          secondPassword: "",
-        }}
-        validationSchema={schema}
-        onSubmit={(values, actions) => {
-          alert(JSON.stringify(values));
-          console.log(values);
-          // actions.resetForm();
-          // actions.setSubmitting(false);
-        }}
-        component={RegisterForm}
-      ></Formik>
-    </div>
   );
 };
 

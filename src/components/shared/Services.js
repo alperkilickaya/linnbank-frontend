@@ -71,10 +71,10 @@ const Services = () => {
                     </div>
                     <div className="service-details">
                       <h5>
-                        <a href="#">{title}</a>
+                        <a href="/">{title}</a>
                       </h5>
                       <p>{description}</p>
-                      <a className="angle-btn" href="#">
+                      <a className="angle-btn" href="/">
                         <img
                           src="assets/img/icon/angle-left-round.png"
                           alt="icon"

@@ -682,10 +682,14 @@ ul {
 }
 
 /*********** Magnific-popup style **************/
+
+/*
 .mfp-zoom-in {
   /* animate in */
   /* animate out */
 }
+
+*/
 .mfp-zoom-in .mfp-content {
   opacity: 0;
   transition: all 0.5s ease-in-out;
@@ -880,7 +884,7 @@ ul {
   font-weight: 300;
 }
 .single-blog .single-blog-content .meta-bottom i {
-  color: #color-gray;
+  color: gray;
   font-size: 13px;
   margin-right: 7px;
 }
