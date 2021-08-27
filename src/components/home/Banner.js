@@ -4,7 +4,7 @@ const Banner = () => {
   return (
     <>
       {/* <!-- banner start --> */}
-      <div classNameName="banner-area style-one">
+      <div className="banner-area style-one">
       <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
   <div className="carousel-inner">
     <div className="carousel-item active">
