@@ -55,27 +55,22 @@ const initialValues = {
   confirmPassword: "",
 };
 
-
-
 const RegisterPage = () => {
-
   const history = useHistory();
-
   const formik = useFormik({
     initialValues,
     validationSchema,
   });
 
-  const SendData = () => {
-    console.log('data has gone2');
-    service.login(formik.values).then((res)=>{
-      if(res.status === 200){
-        history.push('/')
+  const SendData = (e) => {
+    console.log("data has gone2");
+    e.preventDefault();
+    service.login(formik.values).then((res) => {
+      if (res.status === 200) {
+        history.push("/");
       }
-    });    
+    });
   };
-
-  
 
   const [type, setType] = useState(() => {
     return "input";
@@ -90,14 +85,13 @@ const RegisterPage = () => {
 
   const handleSsn = (e) => {
     const currentSsn = formik.values.ssn;
-    
+
     if (
       e.keyCode !== 8 &&
       (currentSsn.length === 3 || currentSsn.length === 6)
     ) {
       formik.setFieldValue("ssn", `${currentSsn}-`);
     }
-
   };
 
   const handleMobileNumber = (e) => {
@@ -108,7 +102,7 @@ const RegisterPage = () => {
     ) {
       formik.setFieldValue("mobilePhoneNumber", `${currentMobile}-`);
     }
-  }
+  };
 
   console.log("data:", formik.values);
 
@@ -349,7 +343,7 @@ const RegisterPage = () => {
               type="submit"
               id="register-submit"
               className="btn btn-round"
-              onClick={SendData}
+              onClick={(e) => SendData(e)}
             >
               <span>Register</span>
             </button>
