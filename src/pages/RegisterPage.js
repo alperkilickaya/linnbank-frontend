@@ -6,6 +6,8 @@ import { useState } from "react";
 import PasswordStrengthBar from "react-password-strength-bar";
 import service from "../service/registerLoginService";
 import { useHistory } from "react-router";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
 const validationSchema = Yup.object({
   ssn: Yup.string()
     .required("SSN required")
@@ -57,6 +59,8 @@ const initialValues = {
 
 const RegisterPage = () => {
   const history = useHistory();
+  const [message, setMessage] = useState("");
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -65,11 +69,36 @@ const RegisterPage = () => {
   const SendData = (e) => {
     console.log("data has gone2");
     e.preventDefault();
-    service.login(formik.values).then((res) => {
-      if (res.status === 200) {
-        history.push("/");
-      }
-    });
+
+    service
+      .login(formik.values)
+      .then((res) => {
+        setMessage(res)
+        console.log("response", res);
+        if (res.status === 200) {
+          toast.success(message, {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          setTimeout(()=>{
+            history.push('/')
+          },10000)        
+        }
+      })
+      .catch((e) => {
+        setMessage(e.response.data.message)
+        console.log("message:",message);
+        if(message.includes('SSN'))
+        toast.warn(message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        else if(e=="Error: Request failed with status code 412")
+        toast.warn("This E-mail is already registered", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        else toast.error("register UNSUCCESSFULL..", {
+          position: toast.POSITION.TOP_CENTER,
+        })
+    })
   };
 
   const [type, setType] = useState(() => {
@@ -347,6 +376,9 @@ const RegisterPage = () => {
             >
               <span>Register</span>
             </button>
+            <>
+              <ToastContainer autoClose={10000} transition={Zoom}/>
+            </>
           </form>
 
           <p>&nbsp;</p>
