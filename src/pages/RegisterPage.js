@@ -8,6 +8,7 @@ import service from "../service/registerLoginService";
 import { useHistory } from "react-router";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
+
 const validationSchema = Yup.object({
   ssn: Yup.string()
     .required("SSN required")
@@ -73,27 +74,24 @@ const RegisterPage = () => {
     service
       .login(formik.values)
       .then((res) => {
-        setMessage(res)
+        setMessage(res);
         console.log("response", res);
         if (res.status === 200) {
           toast.success(res.data.message, {
             position: toast.POSITION.TOP_CENTER,
           });
-           setTimeout(()=>{
-             history.push('/')
-           },10000)        
+          setTimeout(() => {
+            history.push("/");
+          }, 10000);
         }
       })
       .catch((e) => {
-        setMessage(e.response.data.message)
-        console.log("message:",message);
+        setMessage(e.response.data.message);
+        console.log("message:", message);
         toast.error(`👎 ${e.response.data.message}`, {
           position: toast.POSITION.TOP_CENTER,
         });
-        
-        
-        
-    })
+      });
   };
 
   const [type, setType] = useState(() => {
@@ -372,7 +370,7 @@ const RegisterPage = () => {
               <span>Register</span>
             </button>
             <>
-              <ToastContainer autoClose={10000} transition={Zoom}/>
+              <ToastContainer autoClose={10000} transition={Zoom} />
             </>
           </form>
 
