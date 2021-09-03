@@ -76,28 +76,23 @@ const RegisterPage = () => {
         setMessage(res)
         console.log("response", res);
         if (res.status === 200) {
-          toast.success(message, {
+          toast.success(res.data.message, {
             position: toast.POSITION.TOP_CENTER,
           });
-          setTimeout(()=>{
-            history.push('/')
-          },10000)        
+           setTimeout(()=>{
+             history.push('/')
+           },10000)        
         }
       })
       .catch((e) => {
         setMessage(e.response.data.message)
         console.log("message:",message);
-        if(message.includes('SSN'))
-        toast.warn(message, {
+        toast.error(`👎 ${e.response.data.message}`, {
           position: toast.POSITION.TOP_CENTER,
         });
-        else if(e=="Error: Request failed with status code 412")
-        toast.warn("This E-mail is already registered", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        else toast.error("register UNSUCCESSFULL..", {
-          position: toast.POSITION.TOP_CENTER,
-        })
+        
+        
+        
     })
   };
 
