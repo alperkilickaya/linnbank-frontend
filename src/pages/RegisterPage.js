@@ -2,7 +2,7 @@ import React from "react";
 import "./RegisterPage.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import PasswordStrengthBar from "react-password-strength-bar";
 import service from "../service/registerLoginService";
 import { useHistory } from "react-router";

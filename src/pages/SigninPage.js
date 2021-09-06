@@ -85,7 +85,7 @@ const SignInPage = (props) => {
           position: toast.POSITION.TOP_CENTER,
         });
         setTimeout(() => {
-          history.push("/");
+          history.push("/userinfo");
         }, 5000);
       })
       .catch(() => {
