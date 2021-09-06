@@ -65,6 +65,7 @@ const RegisterPage = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
+    
   });
 
   const SendData = (e) => {

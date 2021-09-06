@@ -76,6 +76,37 @@ export const login = (username, password) => (dispatch) => {
     }
   );
 };
+export const infoUpdate = (ssn, firstName, lastName, address, mobilePhoneNumber,email) => (dispatch) => {
+  return AuthService.infoUpdate(ssn, firstName, lastName, address, mobilePhoneNumber,email).then(
+    (data) => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: { user: data },
+      });
+
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      dispatch({
+        type: LOGIN_FAIL,
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+
+      return Promise.reject();
+    }
+  );
+};
 export const getInfo = () => (dispatch) => {
    AuthService.getInfo().then(
     (data) => {

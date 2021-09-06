@@ -24,6 +24,25 @@ class service {
         return response.data;
       });
   };
+  infoUpdate = (ssn, firstName, lastName, address, mobilePhoneNumber,email) => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    return axios
+      .post(API_URL + "infoUpdate", {
+        "jwt":token,
+        ssn,
+        firstName,
+        lastName,
+        address,
+        mobilePhoneNumber,
+        email
+      })
+      .then((response) => {
+        if (response.data.jwt) {
+          localStorage.setItem("token", JSON.stringify(response.data.jwt));
+        }  
+        return response.data;
+      });
+  };
 
   
     getInfo = () => {
@@ -32,6 +51,8 @@ class service {
         "jwt":token
       }
       ).then((response) => { 
+        localStorage.setItem("user", JSON.stringify(response.data.userDAO));
+        console.log('responsexx',response.data);
         localStorage.setItem("ssn", JSON.stringify(response.data.userDAO.ssn));
         localStorage.setItem("firstName", JSON.stringify(response.data.userDAO.firstName));
         localStorage.setItem("lastName", JSON.stringify(response.data.userDAO.lastName));

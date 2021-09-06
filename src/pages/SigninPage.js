@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-
-import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { login } from "../store/actions/auth.js";
 import * as Yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
+import {  toast  } from "react-toastify";
 import { useHistory } from "react-router";
 
+let onSubmit = {};
 
 
 const validationSchema = Yup.object({
@@ -36,8 +35,6 @@ const SignInPage = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  //const {isLoggedIn} = useSelector((state)=>state.auth)
-  //const {message} = useSelector((state)=>state.message)
 
   const [type, setType] = useState(() => {
     return "input";
@@ -64,6 +61,7 @@ const SignInPage = (props) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
+    onSubmit
   });
 /*
   if(isLoggedIn){
@@ -78,8 +76,6 @@ const SignInPage = (props) => {
 
     dispatch(login(formik.values.ssn, formik.values.password))
       .then((e) => {
-        //   //props.history.push("/profile");
-        //window.location.reload();
 
         toast.success("You Have Successfully Loged In", {
           position: toast.POSITION.TOP_CENTER,
@@ -164,11 +160,9 @@ const SignInPage = (props) => {
               id="register-submit"
               className="btn btn-round"
               onClick={(e) => SendData(e)}
-              //disabled={loading}
+              disabled={loading}
             >
-              <>
-                <ToastContainer autoClose={6000} transition={Zoom} />
-              </>
+
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
