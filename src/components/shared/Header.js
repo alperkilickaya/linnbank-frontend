@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import UserDropDown from "./UserDropDown";
 
 const Header = () => {
   return (
@@ -34,16 +35,15 @@ const Header = () => {
                   <p>Mon-Sat (10 AM - 6 PM)</p>
                 </div>
               </div>
-              <span
-                id="account"
-                className="btn btn-round"
-              >
-                
-{/*                   <UserDropDown/>
- */}               
+              <span id="account" className="btn btn-round">
+                {localStorage.getItem("token") ? (
+                  <UserDropDown />
+                ) : (
+                  <span>
                     <Link to="/register">Register</Link> &nbsp; | &nbsp;
                     <Link to="/signin">Signin</Link>
-                  
+                  </span>
+                )}
               </span>
             </div>
           </div>

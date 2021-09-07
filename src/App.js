@@ -6,18 +6,40 @@ import Header from "./components/shared/Header";
 import Navbar from "./components/shared/Navbar";
 import Footer from "./components/shared/Footer";
 import Routes from "./routes";
+import { Store } from "./store/index2";
+import { useState,useEffect } from "react";
+import ApiService from "./utils/api-service/index.js";
 
 function App() {
+
+  const [user,setUser] = useState({});
+
+  const loadCurrentUser = () => {
+  if (!localStorage.getItem("token")) return;
+  
+  ApiService.post("getUserInfo", { jwt: localStorage.getItem("token") }).then(
+    (response) => {
+      setUser(response.data)
+      localStorage.setItem('user', JSON.stringify(response.data));
+    }
+  );  
+  }
+
+  useEffect(() => {
+    loadCurrentUser();
+  }, [])
   return (
-    <Router>
-      <>
-        <ToastContainer autoClose={6000} transition={Zoom} />
-      </>
-      <Header/>
-      <Navbar/>
-      <Routes/>
-      <Footer/>
-    </Router>
+    <Store.Provider value={{user,setUser}}>
+      <Router>
+        <>
+          <ToastContainer autoClose={6000} transition={Zoom} />
+        </>
+        <Header />
+        <Navbar />
+        <Routes />
+        <Footer />
+      </Router>
+    </Store.Provider>
   );
 }
 

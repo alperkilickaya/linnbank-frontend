@@ -51,15 +51,15 @@ class service {
         "jwt":token
       }
       ).then((response) => { 
-        localStorage.setItem("user", JSON.stringify(response.data.userDAO));
-        console.log('responsexx',response.data);
+        //localStorage.setItem("user", JSON.stringify(response.data.userDAO));
+        //console.log('responsexx',response.data);
         localStorage.setItem("ssn", JSON.stringify(response.data.userDAO.ssn));
         localStorage.setItem("firstName", JSON.stringify(response.data.userDAO.firstName));
         localStorage.setItem("lastName", JSON.stringify(response.data.userDAO.lastName));
         localStorage.setItem("address", JSON.stringify(response.data.userDAO.address));
         localStorage.setItem("mobilePhoneNumber", JSON.stringify(response.data.userDAO.mobilePhoneNumber));
         localStorage.setItem("email", JSON.stringify(response.data.userDAO.email));
-        console.log('deneme',response.data.userDAO.ssn);
+        //console.log('deneme',response.data.userDAO.ssn);
         return response.data;
       });
   };

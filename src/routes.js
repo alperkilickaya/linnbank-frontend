@@ -7,8 +7,8 @@ import AboutUsPage from "./pages/AboutUsPage";
 import ContactPage from "./pages/ContactPage";
 import ServicesPage from "./pages/ServicesPage";
 import RegisterPage from "./pages/RegisterPage";
-import SigninPage from "./pages/SigninPage";
-import UserInfoPage from "./pages/UserInfoPage";
+import SigninPage from "./pages/SigninPage2";
+import UserInfoPage from "./pages/UserInfoPage2";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 
