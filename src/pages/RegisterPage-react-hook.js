@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./RegisterPage.css";
 import { useForm } from "react-hook-form";
-import PasswordStrength from "../utils/PasswordStrength";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -28,7 +27,13 @@ const schema = yup.object().shape({
   address: yup.string().min(2).required(),
   email: yup.string().email().required(),
   mobilePhoneNumber: yup.string().matches(new RegExp("[0-9]{7}")).required(),
-  password: yup.string().required("Password is required"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .matches(
+      "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+      "*Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!"
+    ),
   secondPassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match"),
@@ -42,7 +47,6 @@ const RegisterPage = () => {
     formState: { errors },
     setValue,
   } = useForm({ resolver: yupResolver(schema) });
-
 
   const onSubmit = (data) => {
     alert(JSON.stringify(data));

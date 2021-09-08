@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./RegisterPage.css";
-import PasswordStrength from "../utils/PasswordStrength";
 import * as yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import PasswordStrengthBar from "react-password-strength-bar";
 import JHipPasswordBar from "../utils/JHipPAsswordBar";
-
+import ApiService from "../utils/api-service";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 const schema = yup.object().shape({
   ssn: yup
     .string()
@@ -14,25 +14,46 @@ const schema = yup.object().shape({
       "Please enter a valid SSN"
     )
     .max(11)
-    .required(),
+    .required("*SSN required"),
   firstName: yup
     .string()
-    .matches(/^[A-Za-z ]*$/, "Please enter valid name")
+    .matches(/^[A-Za-z ]*$/, "Please enter a valid firstname")
+    .min(2)
     .max(40)
     .nullable(false)
-    .required(),
+    .required("*Firstname required"),
   lastName: yup
     .string()
-    .matches(/^[A-Za-z ]*$/, "Please enter valid name")
+    .matches(/^[A-Za-z ]*$/, "Please enter a valid lastname")
+    .min(2)
     .max(40)
-    .required(),
-  address: yup.string().min(2).required(),
-  email: yup.string().email().required(),
-  mobilePhoneNumber: yup.string().matches(new RegExp("[0-9]{7}")).required(),
-  password: yup.string().required("Password is required"),
+    .required("*Lastname required"),
+  address: yup
+    .string()
+    .min(2, "Address must be at least 2 characters")
+    .required("*Address required"),
+  email: yup
+    .string()
+    .email("Please enter a valid email")
+    .required("*Email required"),
+  mobilePhoneNumber: yup
+    .string()
+    .matches(
+      "^[0-9]{3}-[0-9]{3}-[0-9]{4}$",
+      "*Mobilphone format must be '000-000-0000'."
+    )
+    .required("*Phone number required"),
+  password: yup
+    .string()
+    .required("*Password is required")
+    .matches(
+      "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+      "*Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!"
+    ),
   secondPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("*Confirm Password is required"),
 });
 
 const RegisterForm = (props) => {
@@ -47,6 +68,13 @@ const RegisterForm = (props) => {
     const value = props.values.ssn;
     if (e.keyCode !== 8 && (value.length === 3 || value.length === 6)) {
       props.setFieldValue("ssn", `${value}-`);
+    }
+  };
+
+  const handleOnChangePhone = (e) => {
+    const value = props.values.mobilePhoneNumber;
+    if (e.keyCode !== 8 && (value.length === 3 || value.length === 7)) {
+      props.setFieldValue("mobilePhoneNumber", `${value}-`);
     }
   };
 
@@ -75,12 +103,15 @@ const RegisterForm = (props) => {
                 placeholder="000-00-0000"
                 id="ssn"
                 type="text"
-                className="form-control"
+                className={`${props.errors.ssn && "is-invalid"} form-control`}
                 maxLength="11"
                 // onChange={(e) => handleOnChange(e)}
                 onKeyDown={handleOnChange}
               />
-              <ErrorMessage name="ssn" />
+
+              <div className="invalid-feedback">
+                <ErrorMessage name="ssn" />
+              </div>
             </div>
             <div className="form-group">
               <label
@@ -90,12 +121,16 @@ const RegisterForm = (props) => {
                 First Name
               </label>
               <Field
-                name="firstName"
+                name="firstname"
                 id="firstName"
                 type="text"
-                className="form-control"
+                className={`${
+                  props.errors.firstName && "is-invalid"
+                } form-control`}
               />
-              <ErrorMessage name="firstName" />
+              <div className="invalid-feedback">
+                <ErrorMessage name="firstName" />
+              </div>
             </div>
             <div className="form-group">
               <label
@@ -108,9 +143,14 @@ const RegisterForm = (props) => {
                 name="lastName"
                 id="lastName"
                 type="text"
-                className="form-control"
+                className={`${
+                  props.errors.lastName && "is-invalid"
+                } form-control`}
               />
-              <ErrorMessage name="lastName" />
+
+              <div className="invalid-feedback">
+                <ErrorMessage name="lastName" />
+              </div>
             </div>
 
             <div className="form-group">
@@ -124,9 +164,13 @@ const RegisterForm = (props) => {
                 name="address"
                 id="address"
                 type="text"
-                className="form-control"
+                className={`${
+                  props.errors.address && "is-invalid"
+                } form-control`}
               />
-              <ErrorMessage name="address" />
+              <div className="invalid-feedback">
+                <ErrorMessage name="address" />
+              </div>
             </div>
             <div className="form-group">
               <label
@@ -140,9 +184,16 @@ const RegisterForm = (props) => {
                 placeholder="000-000-0000"
                 id="mobilePhoneNumber"
                 type="text"
-                className="form-control"
+                onKeyDown={handleOnChangePhone}
+                maxLength="12"
+                className={`${
+                  props.errors.mobilePhoneNumber && "is-invalid"
+                } form-control`}
               />
-              <ErrorMessage name="mobilePhoneNumber" />
+
+              <div className="invalid-feedback">
+                <ErrorMessage name="mobilePhoneNumber" />
+              </div>
             </div>
 
             <div className="form-group">
@@ -157,9 +208,11 @@ const RegisterForm = (props) => {
                 placeholder="Your email"
                 id="email"
                 type="email"
-                className="form-control"
+                className={`${props.errors.email && "is-invalid"} form-control`}
               />
-              <ErrorMessage name="email" />
+              <div className="invalid-feedback">
+                <ErrorMessage name="email" />
+              </div>
             </div>
             <div className="form-group">
               <label
@@ -174,7 +227,9 @@ const RegisterForm = (props) => {
                   placeholder="New password"
                   id="password"
                   type={type}
-                  className="form-control"
+                  className={`${
+                    props.errors.password && "is-invalid"
+                  } form-control`}
                 />
                 <span
                   onClick={showHide}
@@ -198,7 +253,9 @@ const RegisterForm = (props) => {
                   )}
                 </span>
               </div>
-              <ErrorMessage name="password" style={{ display: "block" }} />
+              <div className="invalid-feedback d-block">
+                <ErrorMessage name="password" />
+              </div>
             </div>
 
             {/* <span className="show-password" onClick={showHide}>
@@ -219,17 +276,22 @@ const RegisterForm = (props) => {
                 placeholder="Confirm the new password"
                 id="secondPassword"
                 type="password"
-                className="form-control"
+                className={`${
+                  props.errors.secondPassword && "is-invalid"
+                } form-control`}
               />
-              <ErrorMessage name="secondPassword" />
+
+              <div className="invalid-feedback">
+                <ErrorMessage name="secondPassword" />
+              </div>
             </div>
 
             <button
               type="submit"
               id="register-submit"
               className="btn btn-round"
-              onClick={props.submitForm}
-              // disabled={props.isSubmitting}
+              // onClick={props.submitForm}
+              disabled={props.isSubmitting}
             >
               <span>Register</span>
             </button>
@@ -258,6 +320,7 @@ const RegisterForm = (props) => {
 };
 
 const RegisterPage = () => {
+  const history = useHistory();
   return (
     <div>
       <Formik
@@ -273,10 +336,32 @@ const RegisterPage = () => {
         }}
         validationSchema={schema}
         onSubmit={(values, actions) => {
-          alert(JSON.stringify(values));
-          console.log(values);
+          // alert(JSON.stringify(values));
+          // console.log(values);
           // actions.resetForm();
-          // actions.setSubmitting(false);
+          ApiService.post("auth/register", values)
+            .then((res) => {
+              if (res.status === 200) {
+                toast.success(
+                  "👍 Register Successful. Please signin with your valid credential.",
+                  {
+                    position: "top-center",
+                  }
+                );
+                history.push("/signin");
+
+                // actions.resetForm();
+                actions.setSubmitting(false);
+              }
+            })
+            .catch((err) => {
+              toast.error(`👎 ${err.response.data.message}`, {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              // actions.setSubmitting(true);
+              // console.log(err);
+            });
+          actions.setSubmitting(false);
         }}
         component={RegisterForm}
       ></Formik>

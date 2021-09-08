@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import UserDropDown from "./UserDropDown";
+import { Store } from "../../store";
 
 const Header = () => {
+  const { currentUser, setCurrentUser } = useContext(Store);
+
   return (
     <>
       {/* <!-- header-area start --> */}
@@ -36,11 +39,14 @@ const Header = () => {
                 </div>
               </div>
               <span id="account" className="btn btn-round">
-                {/* <UserDropDown /> */}
-                <span>
-                  <Link to="/register">Register</Link> &nbsp; | &nbsp;
-                  <Link to="/signin">Signin</Link>
-                </span>
+                {currentUser?.ssn ? (
+                  <UserDropDown />
+                ) : (
+                  <span>
+                    <Link to="/register">Register</Link> &nbsp; | &nbsp;
+                    <Link to="/signin">Signin</Link>
+                  </span>
+                )}
               </span>
             </div>
           </div>

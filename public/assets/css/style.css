@@ -556,7 +556,7 @@ ul {
 
 /*********** btn style **************/
 .btn {
-  color: #fff;
+  color: #292929;
   font-size: 18px;
   border-radius: 5px;
   box-shadow: 0px 5px 15px 0px rgba(55, 125, 255, 0.25);
@@ -570,7 +570,7 @@ ul {
   color: var(--main-color);
 }
 .btn:hover {
-  color: #fff;
+  color: #292929;
 }
 .btn.btn-round {
   background-color: var(--thirth-color);
@@ -582,7 +582,7 @@ ul {
 .btn:focus {
   outline: 0;
   box-shadow: none;
-  color: #fff;
+  color: #292929;
 }
 
 .btn.btn-round:active,
