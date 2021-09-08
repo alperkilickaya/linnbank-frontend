@@ -9,9 +9,9 @@ const UserDropDown = () => {
   const context = useContext(Store);
 
   return (
-    <div class="dropdown">
+    <div className="dropdown">
       <button
-        class="btn btn-secondary dropdown-toggle"
+        className="btn btn-secondary dropdown-toggle"
         type="button"
         id="dropdownMenuButton"
         data-toggle="dropdown"
@@ -19,31 +19,32 @@ const UserDropDown = () => {
         aria-expanded="false"
       >
         <span>
-          {context.user.userDAO.firstName} {context.user.userDAO.lastName}
+          {context?.user?.userDAO?.firstName} {context?.user?.userDAO?.lastName}
         </span>
       </button>
 
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <Link class="dropdown-item" to="/userinfo">
+      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <Link className="dropdown-item" to="/userinfo">
           My Accounts
         </Link>
-        <Link class="dropdown-item" to="/">
+        <Link className="dropdown-item" to="/">
           Transfer Money
         </Link>
-        <hr class="dropdown-divider" />{" "}
-        <Link class="dropdown-item" to="/userinfo">
+        <hr className="dropdown-divider" />{" "}
+        <Link className="dropdown-item" to="/userinfo">
           User Info
         </Link>
-        <Link class="dropdown-item" to="/change-password">
+        <Link className="dropdown-item" to="/change-password">
           Change Password
         </Link>
         <Link
-          class="dropdown-item"
+          className="dropdown-item"
           onClick={() => {
             localStorage.clear();
             history.push("/");
             window.location.reload();
           }}
+          to="/"
         >
           Log Out
         </Link>

@@ -19,6 +19,7 @@ const SignInPage = (props) => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const context = useContext(Store);
+
   const handleLogin = () => {
     setLoading(true);
     ApiService.post("signin", { ssn, password })
@@ -37,7 +38,7 @@ const SignInPage = (props) => {
         );
         setTimeout(() => {
           history.push("/userinfo");
-        }, 5000);
+        }, 2000);
         setLoading(false);
       })
       .catch(() => {

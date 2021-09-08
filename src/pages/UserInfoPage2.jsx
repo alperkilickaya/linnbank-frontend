@@ -1,56 +1,138 @@
 import React from "react";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 import { useHistory } from "react-router";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { useState, useContext } from "react";
-import { useDispatch } from "react-redux";
-import { getInfo, infoUpdate } from "../store/actions/auth.js";
+import { useState, useContext,useEffect } from "react";
 import { Store } from ".././store/index2";
+import ApiService from "../utils/api-service/index.js";
 
-const UserInfoPage = () => {
+const UserInfoPage = (props) => {
+  const context = useContext(Store);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [ssn, setSsn] = useState("");
-  const [password, setPassword] = useState("");
+  const [ssn, setSsn] = useState(context.user.userDAO?.ssn);
+  const [firstName, setFirstName] = useState(context.user.userDAO?.firstName);
+  const [lastName, setLastName] = useState(context.user.userDAO?.lastName);
+  const [address, setAddress] = useState(context.user.userDAO?.address);
+  const [mobilePhoneNumber, setMobilePhoneNumber] = useState(context.user.userDAO?.mobilePhoneNumber);
+  const [email, setEmail] = useState(context.user.userDAO?.email);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const context = useContext(Store);
 
-  const SendData = (e) => {};
+  useEffect(() => {
+    setSsn(context.user.userDAO?.ssn)
+    setFirstName(context.user.userDAO?.firstName)
+    setLastName(context.user.userDAO?.lastName)
+    setAddress(context.user.userDAO?.address)
+    setMobilePhoneNumber(context.user.userDAO?.mobilePhoneNumber)
+    setEmail(context.user.userDAO?.email)   
+  }, [])
+
+  const handleSsn = (e) => {
+    const currentSsn = ssn;
+
+    if (
+      e.keyCode !== 8 &&
+      (currentSsn.length === 3 || currentSsn.length === 6)
+    ) {
+      setSsn(`${currentSsn}-`);
+    }
+  };
+
+  const handleMobileNumber = (e) => {
+    const currentMobile = mobilePhoneNumber;
+    if (
+      e.keyCode !== 8 &&
+      (currentMobile.length === 3 || currentMobile.length === 7)
+    ) {
+      setMobilePhoneNumber(`${currentMobile}-`);
+    }
+  };  
+
+  const sendData = () => {
+    const token = (localStorage.getItem('token'));
+    setLoading(true);
+    ApiService.post("infoUpdate", {
+      ssn,
+      firstName,
+      lastName,
+      address,
+      mobilePhoneNumber,
+      email,
+      jwt:token
+    }).then((res)=>{
+      if(res.status===200){
+        toast.success("You Have Successfully updated data", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      ApiService.post("getUserInfo", { jwt: token }).then(
+        (response) => {
+          context.setUser(response.data)
+          localStorage.setItem('user', JSON.stringify(response.data));
+        }
+      );
+      setTimeout(() => {
+        history.push("/");
+      }, 3000);
+      setLoading(false);
+      }
+      
+    }).catch(()=>{
+      toast.error("Loged In Denied", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      setLoading(false);
+    });
+  };
 
   return (
     <>
-
       <div className="justify-content-center row">
         <div className="col-md-8">
           <h1 id="register-title">
             <span>
-              Hos Geldiniz Sayin {context.user.userDAO.firstName} {context.user.userDAO.lastName} ...
+              Hos Geldiniz Sayin {context?.user?.userDAO?.firstName}{" "}
+              {context?.user?.userDAO?.lastName} ...
             </span>
           </h1>
         </div>
       </div>
-
+    {console.log("error",errors)}
       <div className="justify-content-center row">
         <div className="col-md-8">
-          <form id="register-form" className="av-invalid">
+          <form
+            className="col-md-8"
+            onSubmit={handleSubmit(sendData)}
+            method="post"
+            noValidate
+          >
             <div className="form-group">
               <label htmlFor="ssn">SSN</label>
               <input
+                {...register("ssn", {
+                  required: "enter a valid ssn",
+                  pattern: {
+                    value: /^[0-9-]*$/i,
+                    message: "invalid format",
+                  },
+                })}
                 name="ssn"
                 placeholder="000-00-0000"
                 id="ssn"
                 type="text"
                 className={`${errors.ssn && "is-invalid"} form-control`}
                 maxLength="11"
-                value={context.user.userDAO.ssn}
+                value={ssn}
+                onChange={(e) => {
+                  setSsn(e.target.value);
+                }}
+                onKeyDown={handleSsn}
               />
+              <div className="invalid-feedback">{errors?.ssn?.message}</div>
             </div>
             <div className="form-group">
               <label
@@ -60,12 +142,24 @@ const UserInfoPage = () => {
                 First Name
               </label>
               <input
+              {...register("firstName", {
+                required: "enter a valid ssn",
+                pattern: {
+                  value: /^[A-Za-z ]+$/i,
+                  message: "invalid format, you can use only alphabetical character",
+                },
+              })}
                 name="firstName"
+                placeholder="first name"
                 id="firstName"
                 type="text"
                 className={`${errors.firstName && "is-invalid"} form-control`}
-                value={context.user.userDAO.firstName}
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
               />
+              <div className="invalid-feedback">{errors?.firstName?.message}</div>
             </div>
             <div className="form-group">
               <label
@@ -75,12 +169,24 @@ const UserInfoPage = () => {
                 Last Name
               </label>
               <input
+              {...register("lastName", {
+                required: "enter a valid ssn",
+                pattern: {
+                  value: /^[A-Za-z ]+$/i,
+                  message: "invalid format",
+                },
+              })}
                 name="lastName"
                 id="lastName"
                 type="text"
                 className={`${errors.lastName && "is-invalid"} form-control`}
-                value={context.user.userDAO.lastName}
+                value={lastName}
+                placeholder="Last Name"
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
               />
+              <div className="invalid-feedback">{errors?.ssn?.message}</div>
             </div>
 
             <div className="form-group">
@@ -91,13 +197,25 @@ const UserInfoPage = () => {
                 Address
               </label>
               <input
+              {...register("address", {
+                required: "enter a valid ssn",
+                pattern: {
+                  value: /^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$/i,
+                  message: "invalid format",
+                },
+              })}
                 name="address"
                 id="address"
                 type="text"
                 className={`${errors.address && "is-invalid"} form-control`}
                 maxLength="5"
-                value={context.user.userDAO.address}
+                value={address}
+                placeholder="Address"
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
               />
+              <div className="invalid-feedback">{errors?.ssn?.message}</div>
             </div>
             <div className="form-group">
               <label
@@ -107,6 +225,13 @@ const UserInfoPage = () => {
                 Mobile Phone Number
               </label>
               <input
+              {...register("mobilePhoneNumber", {
+                required: "enter a valid ssn",
+                pattern: {
+                  value: /^[0-9-]*$/i,
+                  message: "invalid format",
+                },
+              })}
                 name="mobilePhoneNumber"
                 placeholder="000-000-0000"
                 id="mobilePhoneNumber"
@@ -115,8 +240,13 @@ const UserInfoPage = () => {
                   errors.mobilePhoneNumber && "is-invalid"
                 } form-control`}
                 maxLength="12"
-                value={context.user.userDAO.mobilePhoneNumber}
+                value={mobilePhoneNumber}
+                onChange={(e) => {
+                  setMobilePhoneNumber(e.target.value);
+                }}
+                onKeyDown={handleMobileNumber}
               />
+              <div className="invalid-feedback">{errors?.ssn?.message}</div>
             </div>
 
             <div className="form-group">
@@ -127,20 +257,32 @@ const UserInfoPage = () => {
                 Email
               </label>
               <input
+              {...register("email", {
+                required: "enter a valid ssn",
+                pattern: {
+                  value: /^\S+@\S+\.\S+$/i,
+                  message: "invalid format",
+                },
+              })}
                 name="email"
                 placeholder="Your email"
                 id="email"
                 type="email"
                 className={`${errors.email && "is-invalid"} form-control`}
-                value={context.user.userDAO.email}
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
               />
+              <div className="invalid-feedback">{errors?.ssn?.message}</div>
             </div>
 
             <button
               type="submit"
               id="register-submit"
               className="btn btn-round"
-              onClick={(e) => SendData(e)}
+              //hata mesajlari gozukmuyor
+              //onClick={(e) => sendData(e)}
               disabled={loading}
             >
               <span>Update</span>
