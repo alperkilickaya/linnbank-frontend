@@ -19,7 +19,7 @@ const UserDropDown = () => {
         aria-expanded="false"
       >
         <span>
-          {context?.user?.userDAO?.firstName} {context?.user?.userDAO?.lastName}
+          {context?.user?.firstName} {context?.user?.lastName}
         </span>
       </button>
 

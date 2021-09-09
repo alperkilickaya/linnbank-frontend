@@ -17,10 +17,10 @@ function App() {
   const loadCurrentUser = () => {
   if (!localStorage.getItem("token")) return;
   
-  ApiService.post("getUserInfo", { jwt: localStorage.getItem("token") }).then(
+  ApiService.get("api/getUserInfo").then(
     (response) => {
-      setUser(response.data)
-      localStorage.setItem('user', JSON.stringify(response.data));
+      setUser(response.data.userDAO)
+      localStorage.setItem('token', JSON.stringify(response.data.token))
     }
   );  
   }
@@ -28,6 +28,7 @@ function App() {
   useEffect(() => {
     loadCurrentUser();
   }, [])
+
   return (
     <Store.Provider value={{user,setUser}}>
       <Router>

@@ -22,20 +22,14 @@ const SignInPage = (props) => {
 
   const handleLogin = () => {
     setLoading(true);
-    ApiService.post("signin", { ssn, password })
+    ApiService.post("auth/signin", { ssn, password })
       .then((res) => {
-        localStorage.setItem("token", res.data.jwt);
-
+        localStorage.setItem("token", JSON.stringify(res.data.jwt));
+        context.setUser(res.data.userDAO);
         toast.success("You Have Successfully Loged In", {
           position: toast.POSITION.TOP_CENTER,
         });
 
-        ApiService.post("getUserInfo", { jwt: res.data.jwt }).then(
-          (response) => {
-            context.setUser(response.data)
-            localStorage.setItem('user', JSON.stringify(response.data));
-          }
-        );
         setTimeout(() => {
           history.push("/userinfo");
         }, 2000);

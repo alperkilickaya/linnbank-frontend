@@ -14,22 +14,22 @@ const UserInfoPage = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [ssn, setSsn] = useState(context.user.userDAO?.ssn);
-  const [firstName, setFirstName] = useState(context.user.userDAO?.firstName);
-  const [lastName, setLastName] = useState(context.user.userDAO?.lastName);
-  const [address, setAddress] = useState(context.user.userDAO?.address);
-  const [mobilePhoneNumber, setMobilePhoneNumber] = useState(context.user.userDAO?.mobilePhoneNumber);
-  const [email, setEmail] = useState(context.user.userDAO?.email);
+  const [ssn, setSsn] = useState(context.user.ssn);
+  const [firstName, setFirstName] = useState(context.user.firstName);
+  const [lastName, setLastName] = useState(context.user.lastName);
+  const [address, setAddress] = useState(context.user.address);
+  const [mobilePhoneNumber, setMobilePhoneNumber] = useState(context.user.mobilePhoneNumber);
+  const [email, setEmail] = useState(context.user.email);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
-    setSsn(context.user.userDAO?.ssn)
-    setFirstName(context.user.userDAO?.firstName)
-    setLastName(context.user.userDAO?.lastName)
-    setAddress(context.user.userDAO?.address)
-    setMobilePhoneNumber(context.user.userDAO?.mobilePhoneNumber)
-    setEmail(context.user.userDAO?.email)   
+    setSsn(context.user.ssn)
+    setFirstName(context.user.firstName)
+    setLastName(context.user.lastName)
+    setAddress(context.user.address)
+    setMobilePhoneNumber(context.user.mobilePhoneNumber)
+    setEmail(context.user.email)   
   }, [])
 
   const handleSsn = (e) => {
@@ -54,27 +54,31 @@ const UserInfoPage = (props) => {
   };  
 
   const sendData = () => {
-    const token = (localStorage.getItem('token'));
+    
     setLoading(true);
-    ApiService.post("infoUpdate", {
+    ApiService.post("api/infoUpdate", {
       ssn,
       firstName,
       lastName,
       address,
       mobilePhoneNumber,
-      email,
-      jwt:token
+      email
     }).then((res)=>{
+      console.log(res);
       if(res.status===200){
+        localStorage.setItem('token', JSON.stringify(res.data.token))
+        context.setUser(res.data.userDAO)
         toast.success("You Have Successfully updated data", {
         position: toast.POSITION.TOP_CENTER,
       });
-      ApiService.post("getUserInfo", { jwt: token }).then(
+      /*
+      ApiService.get("api/getUserInfo").then(
         (response) => {
           context.setUser(response.data)
           localStorage.setItem('user', JSON.stringify(response.data));
         }
       );
+      */
       setTimeout(() => {
         history.push("/");
       }, 3000);
@@ -82,7 +86,7 @@ const UserInfoPage = (props) => {
       }
       
     }).catch(()=>{
-      toast.error("Loged In Denied", {
+      toast.error("User Update Denied", {
         position: toast.POSITION.TOP_CENTER,
       });
       setLoading(false);
@@ -101,7 +105,6 @@ const UserInfoPage = (props) => {
           </h1>
         </div>
       </div>
-    {console.log("error",errors)}
       <div className="justify-content-center row">
         <div className="col-md-8">
           <form
@@ -186,19 +189,19 @@ const UserInfoPage = (props) => {
                   setLastName(e.target.value);
                 }}
               />
-              <div className="invalid-feedback">{errors?.ssn?.message}</div>
+              <div className="invalid-feedback">{errors?.lastName?.message}</div>
             </div>
 
             <div className="form-group">
               <label
                 htmlFor="address"
-                className="d-flex justify-content-start fw-bold"
+               
               >
                 Address
               </label>
               <input
               {...register("address", {
-                required: "enter a valid ssn",
+                required: "enter a valid USA postal code",
                 pattern: {
                   value: /^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$/i,
                   message: "invalid format",
@@ -215,7 +218,7 @@ const UserInfoPage = (props) => {
                   setAddress(e.target.value);
                 }}
               />
-              <div className="invalid-feedback">{errors?.ssn?.message}</div>
+              <div className="invalid-feedback">{errors?.address?.message}</div>
             </div>
             <div className="form-group">
               <label
@@ -246,7 +249,7 @@ const UserInfoPage = (props) => {
                 }}
                 onKeyDown={handleMobileNumber}
               />
-              <div className="invalid-feedback">{errors?.ssn?.message}</div>
+              <div className="invalid-feedback">{errors?.mobilePhoneNumber?.message}</div>
             </div>
 
             <div className="form-group">
@@ -274,7 +277,7 @@ const UserInfoPage = (props) => {
                   setEmail(e.target.value);
                 }}
               />
-              <div className="invalid-feedback">{errors?.ssn?.message}</div>
+              <div className="invalid-feedback">{errors?.email?.message}</div>
             </div>
 
             <button
