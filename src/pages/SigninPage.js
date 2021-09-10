@@ -39,6 +39,7 @@ const SignInPage = (props) => {
   });
 
   const handleLogin = (data) => {
+    console.log("signin", data);
     setLoading(true);
     ApiService.post("auth/login", data)
       .then((res) => {
@@ -149,7 +150,10 @@ const SignInPage = (props) => {
               <p>
                 Did you forget your
                 <span>
-                  &nbsp; <b> password ?</b>
+                  &nbsp;
+                  <b>
+                    <Link to="/reset-password"> password ? </Link>
+                  </b>
                 </span>
               </p>
             </div>

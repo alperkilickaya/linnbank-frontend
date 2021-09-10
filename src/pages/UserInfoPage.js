@@ -247,13 +247,18 @@ const UserInfoPage = () => {
             actions.setSubmitting(true);
             ApiService.post("user/userInfoUpdate", values)
               .then((res) => {
-                console.log("res-success", res.data);
+                console.log("res-success", res);
                 if (res.status === 200) {
                   actions.setSubmitting(false);
                   toast.success(" 🚀 Userinfo updated successfully !", {
                     position: "top-center",
                   });
-                  localStorage.setItem("token", JSON.stringify(res.data.jwt));
+                  localStorage.setItem(
+                    "token",
+                    JSON.stringify(
+                      res.config.headers.Authorization.substring(7)
+                    )
+                  );
                   context.setCurrentUser(res.data.user);
                 }
               })

@@ -16,6 +16,7 @@ ApiService.interceptors.request.use((config) => {
 
 ApiService.interceptors.response.use(
   (response) => {
+    console.log("response interceptor", response);
     return response;
   },
   (error) => {

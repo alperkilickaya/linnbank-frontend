@@ -11,12 +11,17 @@ import SigninPage from "./pages/SigninPage";
 import UserInfoPage from "./pages/UserInfoPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ChangeForgottenPassword from "./pages/ChangeForgotPasswordPage";
 
 function Routes(props) {
   return (
     <>
       <Switch>
         <Route path="/reset-password" component={ResetPasswordPage} />
+        <Route
+          path="/change-forgotten-password/:token"
+          component={ChangeForgottenPassword}
+        />
         <Route path="/change-password" component={ChangePasswordPage} />
         <Route path="/userinfo" component={UserInfoPage} />
         <Route path="/register" component={RegisterPage} />

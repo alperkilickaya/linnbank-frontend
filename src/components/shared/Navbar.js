@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { Store } from "../../store";
 import UserDropDown from "./UserDropDown";
 
 const Navbar = () => {
+  const context = useContext(Store);
 
   return (
     <>
@@ -28,12 +30,19 @@ const Navbar = () => {
             </div>
             <div className="nav-right-part nav-right-part-mobile">
               <span className="btn btn-round">
-            
-                  {/* <UserDropDown/> */}
-                 
+                {context.currentUser?.ssn ? (
+                  <UserDropDown />
+                ) : (
+                  <span>
                     <Link to="/register">Register</Link> &nbsp; | &nbsp;
-                    <Link to="/signin">Signin</Link>
-                
+                    <Link to="/signin">Signin1</Link>
+                  </span>
+                )}
+
+                {/* <UserDropDown/> */}
+
+                {/* <Link to="/register">Register</Link> &nbsp; | &nbsp;
+                    <Link to="/signin">Signin</Link> */}
               </span>
             </div>
             <div className="collapse navbar-collapse" id="banlank_main_menu">
