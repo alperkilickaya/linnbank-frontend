@@ -22,11 +22,14 @@ const SignInPage = (props) => {
 
   const handleLogin = () => {
     setLoading(true);
-    ApiService.post("auth/signin", { ssn, password })
+    ApiService.post("auth/login", { ssn, password })
       .then((res) => {
         localStorage.setItem("token", JSON.stringify(res.data.jwt));
+        //const token2 = res.config.headers;
+        //console.log("deneme",token2);
+        //localStorage.setItem("token2",JSON.stringify(res.config.headers.Authorization.substring(7)))
         context.setUser(res.data.userDAO);
-        toast.success("You Have Successfully Loged In", {
+        toast.success(res.data.message, {
           position: toast.POSITION.TOP_CENTER,
         });
 

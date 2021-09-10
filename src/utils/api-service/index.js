@@ -9,9 +9,9 @@ const ApiService = axios.create({
 
 ApiService.interceptors.request.use( (config) => {
       const token = authHeader();
-      console.log('auth kismi',token);
+      //console.log('auth kismi',token);
       config.headers["Authorization"] = token;
-      console.log('config kismi',config.headers["Authorization"]);
+      //console.log('config kismi',config.headers["Authorization"]);
       return config;
     }
 );
