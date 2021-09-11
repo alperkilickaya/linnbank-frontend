@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { useState, useContext,useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Store } from ".././store/index2";
 import ApiService from "../utils/api-service/index.js";
 
@@ -14,23 +14,26 @@ const UserInfoPage = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [ssn, setSsn] = useState(context.user.ssn);
-  const [firstName, setFirstName] = useState(context.user.firstName);
-  const [lastName, setLastName] = useState(context.user.lastName);
-  const [address, setAddress] = useState(context.user.address);
-  const [mobilePhoneNumber, setMobilePhoneNumber] = useState(context.user.mobilePhoneNumber);
+  const [ssn, setSsn] = useState(context?.user?.ssn);
+  const [firstName, setFirstName] = useState(context?.user?.firstName);
+  const [lastName, setLastName] = useState(context?.user?.lastName);
+  const [address, setAddress] = useState(context?.user?.address);
+  const [mobilePhoneNumber, setMobilePhoneNumber] = useState(
+    context.user.mobilePhoneNumber
+  );
   const [email, setEmail] = useState(context.user.email);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
-    setSsn(context.user.ssn)
-    setFirstName(context.user.firstName)
-    setLastName(context.user.lastName)
-    setAddress(context.user.address)
-    setMobilePhoneNumber(context.user.mobilePhoneNumber)
-    setEmail(context.user.email)   
-  }, [])
+    console.log(context.user);
+    setSsn(context?.user?.ssn);
+    setFirstName(context?.user?.firstName);
+    setLastName(context?.user?.lastName);
+    setAddress(context?.user?.address);
+    setMobilePhoneNumber(context?.user?.mobilePhoneNumber);
+    setEmail(context?.user?.email);
+  }, []);
 
   const handleSsn = (e) => {
     const currentSsn = ssn;
@@ -51,10 +54,9 @@ const UserInfoPage = (props) => {
     ) {
       setMobilePhoneNumber(`${currentMobile}-`);
     }
-  };  
+  };
 
   const sendData = () => {
-    
     setLoading(true);
     ApiService.post("api/infoUpdate", {
       ssn,
@@ -62,35 +64,48 @@ const UserInfoPage = (props) => {
       lastName,
       address,
       mobilePhoneNumber,
-      email
-    }).then((res)=>{
-      console.log(res);
-      if(res.status===200){
-        localStorage.setItem('token', JSON.stringify(res.data.token))
-        context.setUser(res.data.userDAO)
-        toast.success("You Have Successfully updated data", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      /*
+      email,
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          //localStorage.setItem("token", JSON.stringify(res.data.token));
+          context.setUser(res.data.userDAO);
+          //console.log('response',res);
+          localStorage.clear();
+          //console.log("-----");
+          console.log(res.headers.authorization);
+          localStorage.setItem(
+            "token",
+            JSON.stringify(
+              res.headers.authorization
+            )
+          );
+          //localStorage.setItem("token", JSON.stringify(res.config.headers.Authorization.substring(7)));
+
+          toast.success("You Have Successfully updated data", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+      /*    
       ApiService.get("api/getUserInfo").then(
         (response) => {
           context.setUser(response.data)
-          localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem("token", JSON.stringify(response?.config?.headers?.Authorization?.substring(7)))
         }
       );
       */
-      setTimeout(() => {
-        history.push("/");
-      }, 3000);
-      setLoading(false);
-      }
-      
-    }).catch(()=>{
-      toast.error("User Update Denied", {
-        position: toast.POSITION.TOP_CENTER,
+          setTimeout(() => {
+            //history.push("/");
+          }, 3000);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        toast.error("User Update Denied", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setLoading(false);
       });
-      setLoading(false);
-    });
   };
 
   return (
@@ -115,6 +130,8 @@ const UserInfoPage = (props) => {
           >
             <div className="form-group">
               <label htmlFor="ssn">SSN</label>
+              <span></span>
+
               <input
                 {...register("ssn", {
                   required: "enter a valid ssn",
@@ -144,14 +161,16 @@ const UserInfoPage = (props) => {
               >
                 First Name
               </label>
+
               <input
-              {...register("firstName", {
-                required: "enter a valid ssn",
-                pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "invalid format, you can use only alphabetical character",
-                },
-              })}
+                {...register("firstName", {
+                  required: "enter a valid ssn",
+                  pattern: {
+                    value: /^[A-Za-z ]+$/i,
+                    message:
+                      "invalid format, you can use only alphabetical character",
+                  },
+                })}
                 name="firstName"
                 placeholder="first name"
                 id="firstName"
@@ -162,7 +181,10 @@ const UserInfoPage = (props) => {
                   setFirstName(e.target.value);
                 }}
               />
-              <div className="invalid-feedback">{errors?.firstName?.message}</div>
+
+              <div className="invalid-feedback">
+                {errors?.firstName?.message}
+              </div>
             </div>
             <div className="form-group">
               <label
@@ -172,13 +194,13 @@ const UserInfoPage = (props) => {
                 Last Name
               </label>
               <input
-              {...register("lastName", {
-                required: "enter a valid ssn",
-                pattern: {
-                  value: /^[A-Za-z ]+$/i,
-                  message: "invalid format",
-                },
-              })}
+                {...register("lastName", {
+                  required: "enter a valid ssn",
+                  pattern: {
+                    value: /^[A-Za-z ]+$/i,
+                    message: "invalid format",
+                  },
+                })}
                 name="lastName"
                 id="lastName"
                 type="text"
@@ -189,24 +211,21 @@ const UserInfoPage = (props) => {
                   setLastName(e.target.value);
                 }}
               />
-              <div className="invalid-feedback">{errors?.lastName?.message}</div>
+              <div className="invalid-feedback">
+                {errors?.lastName?.message}
+              </div>
             </div>
 
             <div className="form-group">
-              <label
-                htmlFor="address"
-               
-              >
-                Address
-              </label>
+              <label htmlFor="address">Address</label>
               <input
-              {...register("address", {
-                required: "enter a valid USA postal code",
-                pattern: {
-                  value: /^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$/i,
-                  message: "invalid format",
-                },
-              })}
+                {...register("address", {
+                  required: "enter a valid USA postal code",
+                  pattern: {
+                    value: /^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$/i,
+                    message: "invalid format",
+                  },
+                })}
                 name="address"
                 id="address"
                 type="text"
@@ -228,13 +247,13 @@ const UserInfoPage = (props) => {
                 Mobile Phone Number
               </label>
               <input
-              {...register("mobilePhoneNumber", {
-                required: "enter a valid ssn",
-                pattern: {
-                  value: /^[0-9-]*$/i,
-                  message: "invalid format",
-                },
-              })}
+                {...register("mobilePhoneNumber", {
+                  required: "enter a valid ssn",
+                  pattern: {
+                    value: /^[0-9-]*$/i,
+                    message: "invalid format",
+                  },
+                })}
                 name="mobilePhoneNumber"
                 placeholder="000-000-0000"
                 id="mobilePhoneNumber"
@@ -249,7 +268,9 @@ const UserInfoPage = (props) => {
                 }}
                 onKeyDown={handleMobileNumber}
               />
-              <div className="invalid-feedback">{errors?.mobilePhoneNumber?.message}</div>
+              <div className="invalid-feedback">
+                {errors?.mobilePhoneNumber?.message}
+              </div>
             </div>
 
             <div className="form-group">
@@ -260,13 +281,13 @@ const UserInfoPage = (props) => {
                 Email
               </label>
               <input
-              {...register("email", {
-                required: "enter a valid ssn",
-                pattern: {
-                  value: /^\S+@\S+\.\S+$/i,
-                  message: "invalid format",
-                },
-              })}
+                {...register("email", {
+                  required: "enter a valid ssn",
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/i,
+                    message: "invalid format",
+                  },
+                })}
                 name="email"
                 placeholder="Your email"
                 id="email"

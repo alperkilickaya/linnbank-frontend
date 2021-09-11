@@ -24,10 +24,14 @@ const SignInPage = (props) => {
     setLoading(true);
     ApiService.post("auth/login", { ssn, password })
       .then((res) => {
+        console.log(res);
+        //localStorage.setItem('token', JSON.stringify(res?.config?.headers?.Authorization?.substring(7)))
         localStorage.setItem("token", JSON.stringify(res.data.jwt));
+        console.log("*********");
+        console.log(JSON.stringify(res.data.jwt));
         //const token2 = res.config.headers;
         //console.log("deneme",token2);
-        //localStorage.setItem("token2",JSON.stringify(res.config.headers.Authorization.substring(7)))
+        //localStorage.setItem('token2', JSON.stringify(res?.config))
         context.setUser(res.data.userDAO);
         toast.success(res.data.message, {
           position: toast.POSITION.TOP_CENTER,

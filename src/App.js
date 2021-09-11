@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer, Zoom } from "react-toastify";
-
 import Header from "./components/shared/Header";
 import Navbar from "./components/shared/Navbar";
 import Footer from "./components/shared/Footer";
@@ -13,16 +12,16 @@ import ApiService from "./utils/api-service/index.js";
 function App() {
 
   const [user,setUser] = useState({});
-
   const loadCurrentUser = () => {
-  if (!localStorage.getItem("token")) return;
-  
+  if (!localStorage.getItem("token")) return;  
   ApiService.get("api/getUserInfo").then(
     (response) => {
       setUser(response.data.userDAO)
-      localStorage.setItem('token', JSON.stringify(response.data.token))
+      //localStorage.setItem('token', JSON.stringify(response?.config?.headers?.Authorization?.substring(7)))
     }
-  );  
+  ).catch((err)=>{
+    console.log(err.response);
+  });  
   }
 
   useEffect(() => {

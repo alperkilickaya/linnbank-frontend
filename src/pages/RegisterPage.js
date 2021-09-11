@@ -65,11 +65,11 @@ const RegisterPage = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    
+    //onSubmit
   });
 
   const SendData = (e) => {
-    console.log("data has gone2");
+    console.log("data has gone2",formik.values);
     e.preventDefault();
 
     service

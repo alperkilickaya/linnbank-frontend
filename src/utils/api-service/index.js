@@ -18,6 +18,9 @@ ApiService.interceptors.request.use( (config) => {
 
 ApiService.interceptors.response.use( 
     (response)=> {
+      //console.log("!!!!!!!!!!!!!",response);
+      //response.headers["Authorization"] = response.config.headers.Authorization
+      //response.config.headers.Authorization
       return response
     },
     (error) => {
