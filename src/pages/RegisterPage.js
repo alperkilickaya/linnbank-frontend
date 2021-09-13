@@ -5,8 +5,8 @@ import * as Yup from "yup";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import service from "../service/registerLoginservice";
-// import passwordStrengthBar from "react-password-strength-bar";
-// import "react-toastify/dist/ReactToastify.css";
+import passwordStrengthBar from "react-password-strength-bar";
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast, zoom, Bounce } from "react-toastify";
 
 const validationSchema = Yup.object({
@@ -69,30 +69,30 @@ const RegisterPage = () => {
   });
 
   const sendData = (e) => {
-    console.log("Data has gone (sendData)");
+    console.log("Data has gone 2");
     e.preventDefault();
   };
-  service
-    .login(formik.values)
-    .then((res) => {
-      setMessage(res);
-      console.log("response", res);
-      if (res.status == 200) {
-        toast.success(res.data.message, {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        setTimeout(() => {
-          history.push("/");
-        }, 10000);
-      }
-    })
-    .catch((e) => {
-      setMessage(e.response.data.message);
-      console.log("message:", message);
-      toast.error(`${e.response.data.message}`, {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    });
+  // service
+  //   .login(formik.values)
+  //   .then((res) => {
+  //     setMessage(res);
+  //     console.log("response", res);
+  //     if (res.status == 200) {
+  //       toast.success(res.data.message, {
+  //         position: toast.POSITION.TOP_CENTER,
+  //       });
+  //       setTimeout(() => {
+  //         history.push("/");
+  //       }, 10000);
+  //     }
+  //   })
+  //   .catch((e) => {
+  //     setMessage(e.response.data.message);
+  //     console.log("message:", message);
+  //     toast.error(`${e.response.data.message}`, {
+  //       position: toast.POSITION.TOP_CENTER,
+  //     });
+  //   });
 
   const [type, setType] = useState(() => {
     return "input";
@@ -105,14 +105,25 @@ const RegisterPage = () => {
   };
 
   const handleSsn = (e) => {
-    const currentSssn = formik.values.ssn;
+    const currentSsn = formik.values.ssn;
     if (
       e.keyCode !== 8 &&
-      (currentSssn.length === 3 || currentSssn.length === 6)
+      (currentSsn.length === 3 || currentSsn.length === 6)
     ) {
-      formik.setFieldValue("ssn", `$(currentSssn)-`);
+      formik.setFieldValue("ssn", `$(currentSsn)-`);
     }
   };
+  const handleMobileNumber = (e) => {
+    const currentMobile = formik.values.mobilePhoneNumber;
+    if (
+      e.keyCode !== 8 &&
+      (currentMobile.length === 3 || currentMobile.length === 7)
+    ) {
+      formik.setFieldValue("mobilePhoneNumber", `$(currentMobile)-`);
+    }
+  };
+
+  console.log("data : ", formik.values);
 
   return (
     <>
@@ -125,14 +136,14 @@ const RegisterPage = () => {
       </div>
 
       <div className="justify-content-center row">
-        <div className="col-md-8">
+        <div className=" col-md-8 ">
           <form
             noValidate
             id="register-form"
             method="post"
-            className="av-invalid"
+            className="av-invalid "
           >
-            <div className="form-group">
+            <div className="form-group  ">
               <label htmlFor="ssn">SSN</label>
               <input
                 name="ssn"
@@ -145,7 +156,7 @@ const RegisterPage = () => {
                 }form-control`}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                onKeyDown={formik.handleSsn} //bak
+                onKeyDown={formik} //bak
                 maxLength="11"
               />
               {formik.touched.ssn && formik.errors.ssn ? (
@@ -163,9 +174,18 @@ const RegisterPage = () => {
                 name="firstName"
                 id="firstName"
                 type="text"
-                className="form-control"
+                className={`${
+                  formik.touched.firstName &&
+                  formik.errors.firstName &&
+                  "is-invalid"
+                }form-control`}
                 value={formik.values.firstName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.firstName && formik.errors.firstName ? (
+                <div className="error-message">{formik.errors.firstName} </div>
+              ) : null}
             </div>
             <div className="form-group">
               <label
@@ -178,9 +198,18 @@ const RegisterPage = () => {
                 name="lastName"
                 id="lastName"
                 type="text"
-                className="form-control"
+                className={`${
+                  formik.touched.lastName &&
+                  formik.errors.lastName &&
+                  "is-invalid"
+                }form-control`}
                 value={formik.values.lastName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.lastName && formik.errors.lastName ? (
+                <div className="error-message">{formik.errors.lastName} </div>
+              ) : null}
             </div>
 
             <div className="form-group">
@@ -194,9 +223,18 @@ const RegisterPage = () => {
                 name="address"
                 id="address"
                 type="text"
-                className="form-control"
+                className={`${
+                  formik.touched.address &&
+                  formik.errors.address &&
+                  "is-invalid"
+                }form-control`}
                 value={formik.values.address}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.address && formik.errors.address ? (
+                <div className="error-message">{formik.errors.address} </div>
+              ) : null}
             </div>
             <div className="form-group">
               <label
@@ -210,9 +248,23 @@ const RegisterPage = () => {
                 placeholder="000-000-0000"
                 id="mobilePhoneNumber"
                 type="text"
-                className="form-control"
+                className={`${
+                  formik.touched.mobilePhoneNumber &&
+                  formik.errors.mobilePhoneNumber &&
+                  "is-invalid"
+                }form-control`}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                onKeyDown={handleMobileNumber}
+                maxLength="12"
                 value={formik.values.mobilePhoneNumber}
               />
+              {formik.touched.mobilePhoneNumber &&
+              formik.errors.mobilePhoneNumber ? (
+                <div className="error-message">
+                  {formik.errors.mobilePhoneNumber}{" "}
+                </div>
+              ) : null}
             </div>
 
             <div className="form-group">
@@ -227,9 +279,16 @@ const RegisterPage = () => {
                 placeholder="Your email"
                 id="email"
                 type="email"
-                className="form-control"
+                className={`${
+                  formik.touched.email && formik.errors.email && "is-invalid"
+                }form-control`}
                 value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="error-message">{formik.errors.email} </div>
+              ) : null}
             </div>
             <div className="form-group">
               <label
@@ -243,9 +302,18 @@ const RegisterPage = () => {
                 placeholder="New password"
                 id="password"
                 type="password"
-                className="form-control"
+                className={`${
+                  formik.touched.password &&
+                  formik.errors.password &&
+                  "is-invalid"
+                }form-control`}
                 value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
+              {formik.touched.password && formik.errors.password ? (
+                <div className="error-message">{formik.errors.password} </div>
+              ) : null}
             </div>
             <div id="strength">
               <small>
@@ -288,7 +356,7 @@ const RegisterPage = () => {
                 type="password"
                 className={`${
                   formik.touched.confirmPassword &&
-                  formik.error.confirmPassword &&
+                  formik.errors.confirmPassword &&
                   "is-invalid"
                 }form-control`}
                 onchange={formik.handleChange}
@@ -296,15 +364,25 @@ const RegisterPage = () => {
                 value={formik.values.confirmPassword}
                 onPaste={(e) => e.preventDefault()}
               />
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
+                <div className="error-message">
+                  {formik.errors.confirmPassword}
+                </div>
+              ) : null}
             </div>
 
             <button
               type="submit"
               id="register-submit"
               className="btn btn-round"
+              onClick={(e) => sendData(e)}
             >
               <span>Register</span>
             </button>
+            {/* <>
+            <ToastContainer autoClose={10000} transition={zoom}/>
+            <> */}
           </form>
 
           <p>&nbsp;</p>
@@ -330,3 +408,13 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
+
+
+
+
+
+
+
+
+

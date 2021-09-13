@@ -6,3 +6,7 @@
     margin-right: 1px;
     width: 20px !important;
 }
+.form-group input{
+    width: 100%;
+    /* background-color:aqua; */
+}
