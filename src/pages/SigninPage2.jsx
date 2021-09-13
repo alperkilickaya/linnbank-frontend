@@ -22,7 +22,7 @@ const SignInPage = (props) => {
 
   const handleLogin = () => {
     setLoading(true);
-    ApiService.post("auth/login", { ssn, password })
+    ApiService.post("api/user/login", { ssn, password })
       .then((res) => {
         console.log(res);
         //localStorage.setItem('token', JSON.stringify(res?.config?.headers?.Authorization?.substring(7)))

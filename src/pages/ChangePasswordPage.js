@@ -49,7 +49,7 @@ const ChangePasswordPage = () => {
 
   const SendData = (e) => {
     setLoading(true);
-    ApiService.post("/api/changePassword", {
+    ApiService.post("/api/auth/changePassword", {
       currentPassword: formik.values.currentPassword,
       newPassword: formik.values.newPassword,
       newPassword2: formik.values.newPassword2,

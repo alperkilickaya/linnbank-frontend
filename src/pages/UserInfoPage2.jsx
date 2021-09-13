@@ -26,7 +26,7 @@ const UserInfoPage = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log(context.user);
+    console.log('content*****',context?.user);
     setSsn(context?.user?.ssn);
     setFirstName(context?.user?.firstName);
     setLastName(context?.user?.lastName);
@@ -58,7 +58,7 @@ const UserInfoPage = (props) => {
 
   const sendData = () => {
     setLoading(true);
-    ApiService.post("api/infoUpdate", {
+    ApiService.post("api/auth/infoUpdate", {
       ssn,
       firstName,
       lastName,
@@ -86,14 +86,14 @@ const UserInfoPage = (props) => {
           toast.success("You Have Successfully updated data", {
             position: toast.POSITION.TOP_CENTER,
           });
-      /*    
+          
       ApiService.get("api/getUserInfo").then(
         (response) => {
           context.setUser(response.data)
           localStorage.setItem("token", JSON.stringify(response?.config?.headers?.Authorization?.substring(7)))
         }
       );
-      */
+      
           setTimeout(() => {
             //history.push("/");
           }, 3000);
@@ -114,8 +114,8 @@ const UserInfoPage = (props) => {
         <div className="col-md-8">
           <h1 id="register-title">
             <span>
-              Hos Geldiniz Sayin {context?.user?.userDAO?.firstName}{" "}
-              {context?.user?.userDAO?.lastName} ...
+              Hos Geldiniz Sayin {context?.user?.firstName}{" "}
+              {context?.user?.lastName} ...
             </span>
           </h1>
         </div>

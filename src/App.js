@@ -12,10 +12,12 @@ import ApiService from "./utils/api-service/index.js";
 function App() {
 
   const [user,setUser] = useState({});
+  
   const loadCurrentUser = () => {
   if (!localStorage.getItem("token")) return;  
-  ApiService.get("api/getUserInfo").then(
+  ApiService.get("api/auth/getUserInfo").then(
     (response) => {
+      console.log('app.ten response',response);
       setUser(response.data.userDAO)
       //localStorage.setItem('token', JSON.stringify(response?.config?.headers?.Authorization?.substring(7)))
     }

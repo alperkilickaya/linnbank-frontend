@@ -4,11 +4,9 @@ import { useFormik } from "formik";
 import { useHistory } from "react-router";
 import "react-toastify/dist/ReactToastify.css";
 import {  toast  } from "react-toastify";
-
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getInfo, infoUpdate } from "../store/actions/auth.js";
-
 
 const validationSchema = Yup.object({
   ssn: Yup.string()
